@@ -1,0 +1,26 @@
+[10-Feb-2014 02:06:48 America/Bogota] PHP Notice:  Undefined variable: Recordset1 in /home/grupoext/public_html/pagsExtrema/miura_new/superadministrador/add_distribuidores.php on line 158
+[10-Feb-2014 02:06:48 America/Bogota] PHP Warning:  mysql_free_result() expects parameter 1 to be resource, null given in /home/grupoext/public_html/pagsExtrema/miura_new/superadministrador/add_distribuidores.php on line 158
+[21-Mar-2014 01:04:08 America/Bogota] PHP Notice:  Undefined variable: Recordset1 in /home/grupoext/public_html/pagsExtrema/progMiura/superadministrador/list_user.php on line 156
+[21-Mar-2014 01:04:08 America/Bogota] PHP Warning:  mysql_free_result() expects parameter 1 to be resource, null given in /home/grupoext/public_html/pagsExtrema/progMiura/superadministrador/list_user.php on line 156
+[01-Oct-2014 19:07:25 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[10-Oct-2014 08:57:01 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[10-Oct-2014 09:19:24 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[10-Oct-2014 09:21:01 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92
+[10-Oct-2014 09:23:47 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92
+[10-Oct-2014 09:29:09 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[10-Oct-2014 09:29:55 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92
+[10-Oct-2014 09:31:54 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92
+[10-Oct-2014 09:35:13 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[10-Oct-2014 09:38:49 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92
+[10-Oct-2014 10:09:24 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 11:33:39 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 12:17:40 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 12:32:23 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 12:43:18 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 13:22:27 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 13:30:52 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 14:54:14 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 15:19:07 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[11-Oct-2014 15:39:52 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[13-Oct-2014 12:45:35 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/add_cordenada.php on line 92
+[13-Oct-2014 12:59:29 America/Bogota] PHP Notice:  Undefined index: intPadre in /home/grupoext/public_html/pagsExtrema/mapping/superadministrador/edit_cordenada.php on line 92

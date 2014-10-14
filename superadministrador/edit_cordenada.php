@@ -1,0 +1,299 @@
+<?php require_once('../Connections/conexionmiura.php'); ?>
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+$MM_authorizedUsers = "7";
+$MM_donotCheckaccess = "false";
+
+// *** Restrict Access To Page: Grant or deny access to this page
+function isAuthorized($strUsers, $strGroups, $UserName, $UserGroup) { 
+  // For security, start by assuming the visitor is NOT authorized. 
+  $isValid = False; 
+
+  // When a visitor has logged into this site, the Session variable MM_Username set equal to their username. 
+  // Therefore, we know that a user is NOT logged in if that Session variable is blank. 
+  if (!empty($UserName)) { 
+    // Besides being logged in, you may restrict access to only certain users based on an ID established when they login. 
+    // Parse the strings into arrays. 
+    $arrUsers = Explode(",", $strUsers); 
+    $arrGroups = Explode(",", $strGroups); 
+    if (in_array($UserName, $arrUsers)) { 
+      $isValid = true; 
+    } 
+    // Or, you may restrict access to only certain users based on their username. 
+    if (in_array($UserGroup, $arrGroups)) { 
+      $isValid = true; 
+    } 
+    if (($strUsers == "") && false) { 
+      $isValid = true; 
+    } 
+  } 
+  return $isValid; 
+}
+
+$MM_restrictGoTo = "../index.php";
+if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("",$MM_authorizedUsers, $_SESSION['MM_Username'], $_SESSION['MM_UserGroup'])))) {   
+  $MM_qsChar = "?";
+  $MM_referrer = $_SERVER['PHP_SELF'];
+  if (strpos($MM_restrictGoTo, "?")) $MM_qsChar = "&";
+  if (isset($_SERVER['QUERY_STRING']) && strlen($_SERVER['QUERY_STRING']) > 0) 
+  $MM_referrer .= "?" . $_SERVER['QUERY_STRING'];
+  $MM_restrictGoTo = $MM_restrictGoTo. $MM_qsChar . "accesscheck=" . urlencode($MM_referrer);
+  header("Location: ". $MM_restrictGoTo); 
+  exit;
+}
+?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form5")) {
+  $updateSQL = sprintf("UPDATE tblCordenadas SET textCordenadas=%s, intCategoria=%s, intActivo=%s, textDescripcion=%s, strTitle=%s, intIcono=%s, intPadre=%s WHERE strName=%s",
+                       GetSQLValueString($_POST['textCordenadas'], "text"),
+                       GetSQLValueString($_POST['intCategoria'], "int"),
+                       GetSQLValueString(isset($_POST['intActivo']) ? "true" : "", "defined","1","0"),
+                       GetSQLValueString($_POST['textDescripcion'], "text"),
+                       GetSQLValueString($_POST['strTitle'], "text"),
+                       GetSQLValueString($_POST['intIcono'], "int"),
+                       GetSQLValueString($_POST['intPadre'], "int"),
+                       GetSQLValueString($_POST['strName'], "text"));
+
+  mysql_select_db($database_conexionmiura, $conexionmiura);
+  $Result1 = mysql_query($updateSQL, $conexionmiura) or die(mysql_error());
+
+  $updateGoTo = "list_cordenadas.php";
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
+    $updateGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: %s", $updateGoTo));
+}
+
+$Idcor_consultacordenada = "0";
+if (isset($_GET['idCor'])) {
+  $Idcor_consultacordenada = $_GET['idCor'];
+}
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultacordenada = sprintf("SELECT * FROM tblCordenadas WHERE tblCordenadas.idCordenadas = %s ", GetSQLValueString($Idcor_consultacordenada, "int"));
+$consultacordenada = mysql_query($query_consultacordenada, $conexionmiura) or die(mysql_error());
+$row_consultacordenada = mysql_fetch_assoc($consultacordenada);
+$totalRows_consultacordenada = mysql_num_rows($consultacordenada);
+
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultaCategorias = "SELECT * FROM tblCategorias";
+$consultaCategorias = mysql_query($query_consultaCategorias, $conexionmiura) or die(mysql_error());
+$row_consultaCategorias = mysql_fetch_assoc($consultaCategorias);
+$totalRows_consultaCategorias = mysql_num_rows($consultaCategorias);
+
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultaIconos = "SELECT * FROM tblIcon";
+$consultaIconos = mysql_query($query_consultaIconos, $conexionmiura) or die(mysql_error());
+$row_consultaIconos = mysql_fetch_assoc($consultaIconos);
+$totalRows_consultaIconos = mysql_num_rows($consultaIconos);
+
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultaPadre = "SELECT tblCordenadas.idCordenadas, tblCordenadas.strName, tblCordenadas.strTitle FROM tblCordenadas";
+$consultaPadre = mysql_query($query_consultaPadre, $conexionmiura) or die(mysql_error());
+$row_consultaPadre = mysql_fetch_assoc($consultaPadre);
+$totalRows_consultaPadre = mysql_num_rows($consultaPadre);
+ ?>
+
+<?php include('header.php'); ?>
+<div class="col-lg-12">
+<div class="col-lg-12 text-right">
+                       <p><a class="btn btn-danger " href="list_cordenadas.php">Regresar</a></p>
+                      </div>
+<div class="panel panel-default">
+                <div class="panel-heading"><h3>Administrador</h3></div>
+                	<div class="panel-body">
+
+                    <div class="col-lg-3">
+                      <form action="<?php echo $editFormAction; ?>" method="POST" name="form5">
+                      	  <div class="form-group">
+                            <label for="exampleInputEmail1">Nombre (sin espacios, ñ, ni tildes):</label>
+                            <input class="form-control" type="text" name="strName" value="<?php echo $row_consultacordenada['strName']; ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Titulo:</label>
+                            <input class="form-control" type="text" name="strTitle" value="<?php echo $row_consultacordenada['strTitle']; ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Descripcion:</label>
+                            <textarea class="form-control" name="textDescripcion" rows="8"><?php echo $row_consultacordenada['textDescripcion']; ?></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Cordenadas:</label>
+                            <textarea class="form-control" id="action" name="textCordenadas" rows="4"><?php echo $row_consultacordenada['textCordenadas']; ?></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Categoria></label>
+                            <select class="form-control" name="intCategoria" value="<?php echo $row_consultacordenada['intCategoria']; ?>">
+                              <?php
+do {  
+?>
+                              <option value="<?php echo $row_consultaCategorias['idCategoria']?>"<?php if (!(strcmp($row_consultaCategorias['idCategoria'], $row_consultacordenada['intCategoria']))) {echo "selected=\"selected\"";} ?>><?php echo $row_consultaCategorias['strName']?></option>
+                              <?php
+} while ($row_consultaCategorias = mysql_fetch_assoc($consultaCategorias));
+  $rows = mysql_num_rows($consultaCategorias);
+  if($rows > 0) {
+      mysql_data_seek($consultaCategorias, 0);
+	  $row_consultaCategorias = mysql_fetch_assoc($consultaCategorias);
+  }
+?>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Icono:</label>
+                            <select class="form-control" name="intIcono" value="<?php echo $row_consultacordenada['intIcono']; ?>">
+                              <?php
+do {  
+?>
+                              <option value="<?php echo $row_consultaIconos['idIcon']?>"<?php if (!(strcmp($row_consultaIconos['idIcon'], $row_consultacordenada['intIcono']))) {echo "selected=\"selected\"";} ?>><?php echo $row_consultaIconos['strName']?></option>
+                              <?php
+} while ($row_consultaIconos = mysql_fetch_assoc($consultaIconos));
+  $rows = mysql_num_rows($consultaIconos);
+  if($rows > 0) {
+      mysql_data_seek($consultaIconos, 0);
+	  $row_consultaIconos = mysql_fetch_assoc($consultaIconos);
+  }
+?>
+                            </select>
+                          </div>
+                          
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="intActivo" value="<?php echo $row_consultacordenada['intActivo']; ?>" checked> Activo
+                            </label>
+                          </div>
+                          
+                          <button type="submit" class="btn btn-default">Insertar registro</button>
+                              
+                        <input type="hidden" name="MM_update" value="form5">
+                      </form>
+                      
+                      </div>
+                      <div class="col-lg-9">
+                      		<div id="map_canvas"></div>
+                      </div>
+                    </div>
+                    <style type="text/css">#map_canvas {width: 100%; margin: 0; padding: 0; height: 550px }</style>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+
+    
+
+    <script type="text/javascript">
+var myOptions = {
+  center: new google.maps.LatLng(11.26461221250444, -79.3212890625),
+  zoom: 5,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+
+var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: [google.maps.drawing.OverlayType.POLYLINE, google.maps.drawing.OverlayType.MARKER, google.maps.drawing.OverlayType.POLYGON ]
+      },
+      polylineOptions: {
+        strokeWeight: 2,
+        strokeColor: '#ee9900',
+        clickable: false,
+        zIndex: 1,
+        editable: false
+      },
+      polygonOptions: {
+        editable:false
+      }
+    });
+
+    var map;
+
+      function initialize() {
+
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        google.maps.event.addListener(map, 'click', function(event) {
+          alert(event.latLng);
+        });
+
+
+        drawingManager.setMap(map);
+ 
+        google.maps.event.addDomListener(drawingManager, 'markercomplete', function(marker) {
+          document.getElementById("action").value += "";
+          document.getElementById("action").value += ' new google.maps.LatLng'+ marker.getPosition() + "\n";
+        });
+
+        google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function(line) {
+            path = line.getPath();
+            document.getElementById("action").value += "";
+            for(var i = 0; i < path.length; i++) {
+              document.getElementById("action").value += ' new google.maps.LatLng'+ path.getAt(i) + ",\n";
+            }
+        });
+
+        google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
+            path = polygon.getPath();
+            document.getElementById("action").value += "";
+            for(var i = 0; i < path.length; i++) {
+              document.getElementById("action").value +=  ' new google.maps.LatLng'+ path.getAt(i) + ',\n';
+            }
+        });
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+      google.maps.event.addDomListener(document.getElementById("map_canvas"), 'ready', function() { drawingManager.setMap(map) } );
+
+
+
+    </script>
+                    
+</div>                    
+</div>
+
+
+<?php include('footer.php'); ?>
+						  
+<?php
+mysql_free_result($consultacordenada);
+
+mysql_free_result($consultaCategorias);
+
+mysql_free_result($consultaIconos);
+
+mysql_free_result($consultaPadre);
+?>

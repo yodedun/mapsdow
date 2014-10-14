@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_consultacordenada" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:textCordenadas;datatype:blob,name:intCategoria;datatype:int,name:intActivo;datatype:int,name:textDescripcion;datatype:blob,name:strTitle;datatype:string,name:intIcono;datatype:int,name:intSuperpadre;datatype:int,name:intPadre;datatype:int,name:intRadiocirculo;datatype:int,name:intsubpadre_zona;datatype:int,name:idCategoria;datatype:int,name:strName;datatype:string,name:strColor;datatype:string,name:strBorde;datatype:string,name:strTipo;datatype:string" />
+	<infoitem key="UD_consultaCategorias" value="name:idCategoria;datatype:int,name:strName;datatype:string,name:strColor;datatype:string,name:strBorde;datatype:string,name:strTipo;datatype:string" />
+	<infoitem key="UD_consultaIconos" value="name:idIcon;datatype:int,name:strName;datatype:string,name:strRutaIcon;datatype:string" />
+	<infoitem key="UD_consultaPadre" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:strTitle;datatype:string" />
+</info>

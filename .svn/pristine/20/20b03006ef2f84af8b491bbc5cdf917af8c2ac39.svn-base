@@ -1,0 +1,239 @@
+<?php require_once('../Connections/conexionmiura.php'); ?>
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+$MM_authorizedUsers = "7";
+$MM_donotCheckaccess = "false";
+
+// *** Restrict Access To Page: Grant or deny access to this page
+function isAuthorized($strUsers, $strGroups, $UserName, $UserGroup) { 
+  // For security, start by assuming the visitor is NOT authorized. 
+  $isValid = False; 
+
+  // When a visitor has logged into this site, the Session variable MM_Username set equal to their username. 
+  // Therefore, we know that a user is NOT logged in if that Session variable is blank. 
+  if (!empty($UserName)) { 
+    // Besides being logged in, you may restrict access to only certain users based on an ID established when they login. 
+    // Parse the strings into arrays. 
+    $arrUsers = Explode(",", $strUsers); 
+    $arrGroups = Explode(",", $strGroups); 
+    if (in_array($UserName, $arrUsers)) { 
+      $isValid = true; 
+    } 
+    // Or, you may restrict access to only certain users based on their username. 
+    if (in_array($UserGroup, $arrGroups)) { 
+      $isValid = true; 
+    } 
+    if (($strUsers == "") && false) { 
+      $isValid = true; 
+    } 
+  } 
+  return $isValid; 
+}
+
+$MM_restrictGoTo = "../index.php";
+if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("",$MM_authorizedUsers, $_SESSION['MM_Username'], $_SESSION['MM_UserGroup'])))) {   
+  $MM_qsChar = "?";
+  $MM_referrer = $_SERVER['PHP_SELF'];
+  if (strpos($MM_restrictGoTo, "?")) $MM_qsChar = "&";
+  if (isset($_SERVER['QUERY_STRING']) && strlen($_SERVER['QUERY_STRING']) > 0) 
+  $MM_referrer .= "?" . $_SERVER['QUERY_STRING'];
+  $MM_restrictGoTo = $MM_restrictGoTo. $MM_qsChar . "accesscheck=" . urlencode($MM_referrer);
+  header("Location: ". $MM_restrictGoTo); 
+  exit;
+}
+?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+  $insertSQL = sprintf("INSERT INTO tblCordenadas (strName, textCordenadas, intCategoria, intActivo) VALUES (%s, %s, %s, %s)",
+                       GetSQLValueString($_POST['strName'], "text"),
+                       GetSQLValueString($_POST['textCordenadas'], "text"),
+                       GetSQLValueString($_POST['intCategoria'], "int"),
+                       GetSQLValueString(isset($_POST['intActivo']) ? "true" : "", "defined","1","0"));
+
+  mysql_select_db($database_conexionmiura, $conexionmiura);
+  $Result1 = mysql_query($insertSQL, $conexionmiura) or die(mysql_error());
+
+  $insertGoTo = "list_cordenadas.php";
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: %s", $insertGoTo));
+}
+
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultaCategorias = "SELECT * FROM tblCategorias";
+$consultaCategorias = mysql_query($query_consultaCategorias, $conexionmiura) or die(mysql_error());
+$row_consultaCategorias = mysql_fetch_assoc($consultaCategorias);
+$totalRows_consultaCategorias = mysql_num_rows($consultaCategorias);
+?>
+<?php include('header.php'); ?>
+<div class="col-lg-12">
+<div class="panel panel-default">
+                <div class="panel-heading"><h3>Administrador</h3></div>
+                	<div class="panel-body">
+                    <div class="col-lg-3">
+                      <form action="<?php echo $editFormAction; ?>" method="POST" name="form1">
+                        <table align="center">
+                          <tr valign="baseline">
+                            <td nowrap align="right">Name:</td>
+                            <td><input type="text" name="strName" value=""></td>
+                          </tr>
+                          <tr valign="baseline">
+                            <td nowrap align="right">Cordenadas:</td>
+                            <td>
+                             	<textarea id="action" name="textCordenadas" rows="8"></textarea></td>
+                          </tr>
+                          
+                          <tr valign="baseline">
+                            <td nowrap align="right">Categoria</td>
+                            <td><select name="intCategoria" value="">
+                              <?php
+do {  
+?>
+                              <option value="<?php echo $row_consultaCategorias['idCategoria']?>"><?php echo $row_consultaCategorias['strName']?></option>
+                              <?php
+} while ($row_consultaCategorias = mysql_fetch_assoc($consultaCategorias));
+  $rows = mysql_num_rows($consultaCategorias);
+  if($rows > 0) {
+      mysql_data_seek($consultaCategorias, 0);
+	  $row_consultaCategorias = mysql_fetch_assoc($consultaCategorias);
+  }
+?>
+                            </select></td>
+                          </tr>
+
+                          <tr valign="baseline">
+                            <td nowrap align="right">Activo:</td>
+                            <td><input type="checkbox" name="intActivo" value="" checked></td>
+                          </tr>
+                          <tr valign="baseline">
+                            <td nowrap align="right">&nbsp;</td>
+                            <td><input type="submit" value="Insertar registro"></td>
+                          </tr>
+                        </table>
+                        <input type="hidden" name="MM_insert" value="form1">
+                      </form>
+                      
+                      </div>
+                      <div class="col-lg-9">
+                      		<div id="map_canvas"></div>
+                      </div>
+                    </div>
+                    <style type="text/css">#map_canvas {width: 100%; margin: 0; padding: 0; height: 550px }</style>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+
+    
+
+    <script type="text/javascript">
+var myOptions = {
+  center: new google.maps.LatLng(-25,177.5),
+  zoom: 3,
+  mapTypeId: google.maps.MapTypeId.TERRAIN
+};
+
+var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: [google.maps.drawing.OverlayType.POLYLINE, google.maps.drawing.OverlayType.MARKER, google.maps.drawing.OverlayType.POLYGON ]
+      },
+      polylineOptions: {
+        strokeWeight: 2,
+        strokeColor: '#ee9900',
+        clickable: false,
+        zIndex: 1,
+        editable: false
+      },
+      polygonOptions: {
+        editable:false
+      }
+    });
+
+    var map;
+
+      function initialize() {
+
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        google.maps.event.addListener(map, 'click', function(event) {
+          alert(event.latLng);
+        });
+
+
+        drawingManager.setMap(map);
+ 
+        google.maps.event.addDomListener(drawingManager, 'markercomplete', function(marker) {
+          document.getElementById("action").value += "";
+          document.getElementById("action").value += ' new google.maps.LatLng'+ marker.getPosition() + "\n";
+        });
+
+        google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function(line) {
+            path = line.getPath();
+            document.getElementById("action").value += "";
+            for(var i = 0; i < path.length; i++) {
+              document.getElementById("action").value += ' new google.maps.LatLng'+ path.getAt(i) + ",\n";
+            }
+        });
+
+        google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
+            path = polygon.getPath();
+            document.getElementById("action").value += "";
+            for(var i = 0; i < path.length; i++) {
+              document.getElementById("action").value +=  ' new google.maps.LatLng'+ path.getAt(i) + ',\n';
+            }
+        });
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+      google.maps.event.addDomListener(document.getElementById("map_canvas"), 'ready', function() { drawingManager.setMap(map) } );
+
+
+
+    </script>
+                    
+</div>                    
+</div>
+
+<?php include('footer.php'); ?>
+<?php
+mysql_free_result($consultaCategorias);
+?>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_consultaPais" value="name:idPais;datatype:int,name:textCordenadas;datatype:blob,name:strName;datatype:string,name:strColor;datatype:string,name:strBorde;datatype:string,name:intActivo;datatype:int" />
+	<infoitem key="UD_consulta_Viewpais" value="name:idPais;datatype:int,name:textCordenadas;datatype:blob,name:strName;datatype:string,name:strColor;datatype:string,name:strBorde;datatype:string,name:intActivo;datatype:int" />
+</info>

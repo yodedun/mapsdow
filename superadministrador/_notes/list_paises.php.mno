@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_ConsultaCordenadas" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:textCordenadas;datatype:blob,name:intCategoria;datatype:int,name:intActivo;datatype:int,name:strTipo;datatype:string,name:textCordenadas;datatype:blob,name:strTitle;datatype:string" />
+</info>

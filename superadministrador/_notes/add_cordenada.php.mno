@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_consultaCategorias" value="name:idCategoria;datatype:int,name:strName;datatype:string,name:strColor;datatype:string,name:strBorde;datatype:string,name:strTipo;datatype:string" />
+	<infoitem key="UD_consultaIconos" value="name:idIcon;datatype:int,name:strName;datatype:string,name:strRutaIcon;datatype:string" />
+	<infoitem key="UD_consultaPadre" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:strTitle;datatype:string" />
+	<infoitem key="UD_Recordset1" value="name:intSuperpadre;datatype:int" />
+</info>

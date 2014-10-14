@@ -1,0 +1,108 @@
+
+
+/* ==========================================================================
+   Johnny escudero j.escudero@kol3.com
+   ========================================================================== */
+@import url(http://fonts.googleapis.com/css?family=Cabin:400,700);
+.container {
+width: 100%;
+max-width: 100%;
+
+}
+.navbar.navbar-default.navbar-fixed-top {
+background: #338644;
+}
+.navbar-default .navbar-brand {
+color: #FFF;
+}
+.navbar-default .navbar-nav>li>a {
+color: #FFF;
+border-top: 3px solid #4CA753;
+}
+.navbar-default {border:none}
+.navbar .navbar-nav>.active>a {
+background-color: #970000;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+color: #FFF;
+background: #4CA753;
+border-top: 3px solid #fff;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+color: #FFF;
+background-color: #4CA753;
+border-top: 3px solid #4CA753;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+color: #FFF;}
+
+body {
+	background: #14551B url(../img/page_gl.png) top no-repeat;
+	font-family: 'Cabin', sans-serif;
+	font-size: 15px;}
+.table{
+	background:#fff}
+
+.miuralogo, .miuralogin{
+	margin-top:30px;}
+.jumbotron {
+	background: #fff;
+}
+.personaje{
+	position: absolute;
+width: 375PX;
+top: -25PX;
+left: -6px;
+}
+.logviejo{
+	position: relative;
+	top: 127px;
+	z-index: 22;
+	left: -20px;
+}
+.text1{
+	
+	text-align: center;
+	font-size: 15px;
+}
+.login1{
+	margin-top: 20PX;
+}
+.form-control, input {
+	background-color: #fff;
+}
+
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+z-index: 2;
+color: #FFF;
+cursor: default;
+background-color: #4CA753;
+border-color: #4CA753;
+}
+
+.btn a{
+	color: #fff;
+}
+a {
+	color: #4CA753;
+}
+.navbar a{
+	color:#fff;}
+footer{
+	color:#fff;}
+
+.btn-group{
+	position: relative;
+}
+
+
+
+
+
+
+
+
+
+

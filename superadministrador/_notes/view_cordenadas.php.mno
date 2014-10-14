@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_consultacordenada" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:textCordenadas;datatype:blob,name:intCategoria;datatype:int,name:intActivo;datatype:int,name:strTipo;datatype:string,name:strBorde;datatype:string,name:strColor;datatype:string" />
+	<infoitem key="UD_consultazonas" value="name:idCordenadas;datatype:int,name:strName;datatype:string,name:textCordenadas;datatype:blob,name:intCategoria;datatype:int,name:intActivo;datatype:int,name:textDescripcion;datatype:blob,name:strTitle;datatype:string,name:intIcono;datatype:int,name:intPadre;datatype:int" />
+</info>

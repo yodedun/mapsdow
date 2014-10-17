@@ -187,7 +187,7 @@ $totalRows_ConsultaCordenadas = mysql_num_rows($ConsultaCordenadas);
                                   <td class="col-lg-1">
                                     <a href="view_cordenada.php?idCor=<?php echo $row_ConsultaCordenadas['idCordenadas']; ?>">Previsualizar</a></td>
                                   <td class="col-lg-1">
-                                    <a href="edit_cordenada.php?idCor=<?php echo $row_ConsultaCordenadas['idCordenadas']; ?>">Editar</a>
+                                    <a href="edit_zonas.php?idCor=<?php echo $row_ConsultaCordenadas['idCordenadas']; ?>">Editar</a>
                                   </td>
                                   
                              </tr>

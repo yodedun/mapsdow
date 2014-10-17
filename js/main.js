@@ -1,46 +1,29 @@
 
-$("#paisC").change(function(){
-if (document.getElementById('paisC').checked==true)
-  {
-    paisIniOn();
-  }else{ paisIniOff(); };
 
+$(function(){
+      $('#menu').accordion();
 });
 
-$("#regionC").change(function(){
-if (document.getElementById('regionC').checked==true)
-  {
-    regionIniOn();
-  }else{ regionIniOff(); };
 
+$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active');  
+    
+    if ($(this).find('.btn-primary').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-primary');
+    }
+    if ($(this).find('.btn-danger').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-danger');
+    }
+    if ($(this).find('.btn-success').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-success');
+    }
+    if ($(this).find('.btn-info').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-info');
+    }
+    
+    $(this).find('.btn').toggleClass('btn-default');
+       
 });
 
-$("#zonaC").change(function(){
-if (document.getElementById('zonaC').checked==true)
-  {
-    zonasIniOn();
-  }else{ zonasIniOff(); };
 
-});
 
-$("#municipioC").change(function(){
-if (document.getElementById('municipioC').checked==true)
-  {
-    municipioIniOn();
-  }else{ municipioIniOff(); };
-
-});
-
-$("#puntosC").change(function(){
-if (document.getElementById('puntosC').checked==true)
-  {
-    puntosIniOn();
-  }else{ puntosIniOff(); };
-
-});
-
-setTimeout(paisIniOn, 2000); 
-setTimeout(regionIniOn, 2000);  
-setTimeout(zonasIniOn, 2000);  
-setTimeout(puntosIniOn, 2000);
-setTimeout(municipioIniOn, 2000);

@@ -7,7 +7,8 @@
     </footer>
         
        
-
+		 <script src="js/jquery.accordion.js" type="text/javascript" charset="utf-8"></script> 
+         <script src="js/bootstrap-switch.js"></script> 
         <script src="js/vendor/bootstrap.min.js"></script>
 
         <script src="js/plugins.js"></script>

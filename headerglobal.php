@@ -20,6 +20,7 @@
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link href="css/bootstrap-switch.css" rel="stylesheet">
         <!--<link rel="stylesheet" href="lib/jquery.dataTables.bootstrap3/css/dataTables.bootstrap.css"/>-->
         <!--<link rel="stylesheet" href="files/css/datatables.responsive.css"/>-->
 

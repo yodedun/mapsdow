@@ -138,7 +138,10 @@ if ((isset($_SESSION['MM_Username'])) && ($_SESSION['MM_Username'] != ""))
   			         <?php echo $_SESSION['MM_Username'] ?> </span>
                 </a>  
             </div>
-            <button type="button" class="btn btn-default"  onclick="location.href = 'salir_allusers.php'">
+            <a class="btn btn-danger" href="crearRuta.php?user=<?php echo $_SESSION['MM_idUsuario'] ?>">
+           		 Crear mi ruta
+            </a>
+            <button type="button" class="btn btn-danger"  onclick="location.href = 'salir_allusers.php'">
             Salir
             </button>
           </form>

@@ -81,27 +81,37 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO tblCordenadas (strName, strTitle, textDescripcion, textCordenadas, intCategoria, intIcono, intSuperpadre, intActivo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['strName'], "text"),
-					   GetSQLValueString($_POST['strTitle'], "text"),
-					   GetSQLValueString($_POST['textDescripcion'], "text"),
+if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
+  $updateSQL = sprintf("UPDATE tblCordenadas SET textCordenadas=%s, intCategoria=%s, intActivo=%s, textDescripcion=%s, strTitle=%s, intIcono=%s, intPadre=%s WHERE strName=%s",
                        GetSQLValueString($_POST['textCordenadas'], "text"),
                        GetSQLValueString($_POST['intCategoria'], "int"),
-					   GetSQLValueString($_POST['intIcono'], "int"),
-					   GetSQLValueString($_POST['intSuperpadre'], "int"),
-                       GetSQLValueString(isset($_POST['intActivo']) ? "true" : "", "defined","1","0"));
+                       GetSQLValueString(isset($_POST['intActivo']) ? "true" : "", "defined","1","0"),
+                       GetSQLValueString($_POST['textDescripcion'], "text"),
+                       GetSQLValueString($_POST['strTitle'], "text"),
+                       GetSQLValueString($_POST['intIcono'], "int"),
+                       GetSQLValueString($_POST['intPadre'], "int"),
+                       GetSQLValueString($_POST['strName'], "text"));
 
   mysql_select_db($database_conexionmiura, $conexionmiura);
-  $Result1 = mysql_query($insertSQL, $conexionmiura) or die(mysql_error());
+  $Result1 = mysql_query($updateSQL, $conexionmiura) or die(mysql_error());
 
-	$insertGoTo = "list_regiones.php";
+  $updateGoTo = "list_regiones.php";
   if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
+    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
+    $updateGoTo .= $_SERVER['QUERY_STRING'];
   }
-  header(sprintf("Location: %s", $insertGoTo));
+  header(sprintf("Location: %s", $updateGoTo));
 }
+
+$Idcor_consultacordenada = "0";
+if (isset($_GET['idCor'])) {
+  $Idcor_consultacordenada = $_GET['idCor'];
+}
+mysql_select_db($database_conexionmiura, $conexionmiura);
+$query_consultacordenada = sprintf("SELECT * FROM tblCordenadas WHERE tblCordenadas.idCordenadas = %s ", GetSQLValueString($Idcor_consultacordenada, "int"));
+$consultacordenada = mysql_query($query_consultacordenada, $conexionmiura) or die(mysql_error());
+$row_consultacordenada = mysql_fetch_assoc($consultacordenada);
+$totalRows_consultacordenada = mysql_num_rows($consultacordenada);
 
 mysql_select_db($database_conexionmiura, $conexionmiura);
 $query_consultaCategorias = "SELECT * FROM tblCategorias";
@@ -140,11 +150,11 @@ $totalRows_consultaPais = mysql_num_rows($consultaPais);
                       <form action="<?php echo $editFormAction; ?>" method="POST" name="form1">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nombre (sin espacios, ñ, ni tildes):</label>
-                            <input class="form-control" type="text" name="strName" value="">
+                            <input class="form-control" type="text" name="strName" value="<?php echo $row_consultacordenada['strName']; ?>">
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail1">Titulo:</label>
-                            <input class="form-control" type="text" name="strTitle" value="">
+                            <input class="form-control" type="text" name="strTitle" value="<?php echo $row_consultacordenada['strTitle']; ?>">
                           </div>
                           <div class="form-group none">
                             <label for="exampleInputEmail1">Descripcion:</label>
@@ -153,7 +163,7 @@ $totalRows_consultaPais = mysql_num_rows($consultaPais);
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail1">Cordenadas:</label>
-                            <textarea class="form-control" id="action" name="textCordenadas" rows="4"></textarea>
+                            <textarea class="form-control" id="action" name="textCordenadas" rows="4"><?php echo $row_consultacordenada['textCordenadas']; ?></textarea>
                           </div>
                           <div class="form-group none">
                             <label for="exampleInputEmail1">Categoria></label>
@@ -166,7 +176,7 @@ $totalRows_consultaPais = mysql_num_rows($consultaPais);
                             <?php
 do {  
 ?>
-                            <option value="<?php echo $row_consultaPais['idCordenadas']?>"><?php echo $row_consultaPais['strName']?></option>
+                            <option value="<?php echo $row_consultaPais['idCordenadas']?>"<?php if (!(strcmp($row_consultaPais['idCordenadas'], $row_consultacordenada['intSuperpadre']))) {echo "selected=\"selected\"";} ?>><?php echo $row_consultaPais['strName']?></option>
                             <?php
 } while ($row_consultaPais = mysql_fetch_assoc($consultaPais));
   $rows = mysql_num_rows($consultaPais);
@@ -190,7 +200,7 @@ do {
                           </div>
                           
                           <button type="submit" class="btn btn-default">Insertar registro</button>
-                        <input type="hidden" name="MM_insert" value="form1">
+                        <input type="hidden" name="MM_update" value="form1">
                       </form>
                       
                       </div>
@@ -273,4 +283,6 @@ mysql_free_result($consultaIconos);
 mysql_free_result($consultaPadre);
 
 mysql_free_result($consultaPais);
+
+mysql_free_result($consultacordenada);
 ?>

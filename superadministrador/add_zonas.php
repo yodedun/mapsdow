@@ -96,7 +96,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   mysql_select_db($database_conexionmiura, $conexionmiura);
   $Result1 = mysql_query($insertSQL, $conexionmiura) or die(mysql_error());
 
-	$insertGoTo = "list_paises.php";
+	$insertGoTo = "list_zonas.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
@@ -158,7 +158,7 @@ $totalRows_consultaPais = mysql_num_rows($consultaPais);
                           </div>
                           <div class="form-group none">
                             <label for="exampleInputEmail1">Categoria></label>
-                            <input class="form-control"  type="hidden" name="intCategoria" value="2">
+                            <input class="form-control"  type="hidden" name="intCategoria" value="3">
                            
                           </div>
                           <div class="form-group">

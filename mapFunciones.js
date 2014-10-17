@@ -1,0 +1,1 @@
+map.setZoom(7)
